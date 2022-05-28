@@ -12,5 +12,4 @@ int main(){
     int id =connect(nbrl);
     editPW(nbrl,id);
     int a = 2113531;
-    // klmmllm
 }   
