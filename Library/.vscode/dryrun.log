@@ -1,0 +1,10 @@
+make --dry-run --always-make --keep-going --print-directory
+make: Entering directory '/home/mehdi/Documents/Programme/Library'
+gcc -o Main.o -c ./Source/Main.c
+gcc -o Borrow.o -c ./Source/Borrow.c
+gcc -o Visual.o -c ./Source/Visual.c
+gcc -o Account.o -c ./Source/Account.c
+gcc -o Books.o -c ./Source/Books.c
+gcc -o Biblio Main.o Borrow.o Visual.o Account.o Books.o 
+make: Leaving directory '/home/mehdi/Documents/Programme/Library'
+ 
