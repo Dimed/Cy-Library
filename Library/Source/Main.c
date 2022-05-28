@@ -5,7 +5,7 @@
 #include "Library.h"
 
 int main(){
-    
+    int a=0;
     int nbrl = takeInfo();
 
     nbrl = create(nbrl);
