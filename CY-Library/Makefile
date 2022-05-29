@@ -1,5 +1,5 @@
-Biblio : Main.o Borrow.o Visual.o Account.o Books.o 
-	gcc -o Biblio Main.o Borrow.o Visual.o Account.o Books.o 
+CY-Library : Main.o Borrow.o Visual.o Account.o Books.o 
+	gcc -o CY-Library Main.o Borrow.o Visual.o Account.o Books.o 
 
 Main.o : ./Source/Main.c
 	gcc -o Main.o -c ./Source/Main.c
