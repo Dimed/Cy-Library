@@ -1,1 +1,7 @@
-harry potter 1 Jk Rolwing 2012 fantastique
+Harry-Potter-1 JK-Rolwing 1997 4
+Voyage-au-bout-de-la-nuit Louis-Ferdinand-Céline 1972 2
+A-la-recherche-du-temps-perdu Marcel-Proust 1913 3
+Le-seigneur-des-anneaux-1 J.R.R.-Tolkien 1954 4
+1984 George-Orwell 1972 10
+Voyage-au-bout-de-la-nuit Lozis-Ferdinand-Céline 1972 2
+Harry-Potter-2 JK-Rolwing 1997 4

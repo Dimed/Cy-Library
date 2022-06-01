@@ -4,7 +4,6 @@
 #include <string.h>
 
 
-
 char name [1000][15];
 char pw [1000][15];
 int type [1000];
@@ -219,8 +218,8 @@ void editPW(int nbrl,int id){
         fprintf(acc,"%s %s %d\n",name[j],pw[j],type[j]);
 
     }
-
     remove("./Data/Account-save.txt");
+    fclose(acc);
 }
 
 

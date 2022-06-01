@@ -5,10 +5,11 @@
 #include "Library.h"
 
 int main(){
-    int nbrl = takeInfo();
-
-    nbrl = create(nbrl);
-
-    int id =connect(nbrl);
-    editPW(nbrl,id);
+    char name[30];
+    int nbrl = takeInf();
+    printf("%d\n",SearchN(nbrl));
 }
+
+
+
+
