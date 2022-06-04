@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <time.h>
 #include <string.h>
-
+#include "Library.h"
 
 char name [1000][15];
 char pw [1000][15];
@@ -29,20 +29,22 @@ int YorN(){
 
 int scan(int min,int max){
 
-    int ask;
+    float ask;
 
     while(1){
-        if (scanf("%d",&ask)==0){
+        if (scanf("%f",&ask)==0){
             printf("\nEcrivez un chiffre :\n\n");
+            scanf("%*[^\n]%*1[\n]");
         }
         else if(ask<min || ask>max){
             printf("\nEcrivez un chiffre entre %d et %d:\n\n",min,max);
 
         }
         else{
-            return ask;
+            int ent = (int)ask;
+            return ent;
         }
-        scanf("%*[^\n]%*1[\n]");
+        
     }
 }
 
@@ -185,6 +187,11 @@ int connect(int nbrl){
     return -1;
 }
 
+int giveT(int id){
+
+    return type[id];
+}
+
 
 
 void editPW(int nbrl,int id){
@@ -196,11 +203,11 @@ void editPW(int nbrl,int id){
     remove("./Data/Account.txt");
     FILE *acc = fopen("./Data/Account.txt","a");
     while(answer){
-        printf("Ecriez votre ancien mdp:");
+        printf("Ecrivez votre ancien mdp:");
         scanf("%s",mdp);
         vigenereEnc(mdp, "CYTECHLIBRARY", mdp2);
         if (chainDif(mdp2,pw[id])){
-            printf("Ecriez votre nvx mdp:");
+            printf("Ecrivez votre nvx mdp:");
             scanf("%s",mdp);
             vigenereEnc(mdp, "CYTECHLIBRARY", mdp2);
             for(int i=0; i<15;i++){
@@ -215,12 +222,22 @@ void editPW(int nbrl,int id){
         }
     }
     for(int j=0;j<nbrl;j++){
-        fprintf(acc,"%s %s %d\n",name[j],pw[j],type[j]);
 
+        if(j==nbrl-1){
+            fprintf(acc,"%s %s %d",name[j],pw[j],type[j]);
+        }
+        else{
+            fprintf(acc,"%s %s %d\n",name[j],pw[j],type[j]);
+        }
     }
     remove("./Data/Account-save.txt");
     fclose(acc);
+    
 }
 
-
-
+void succesC(int nbrl,int id,Book Books[0]){
+    system("clear");
+    printf("\n\n  ______  __      __        __        ______  _______   _______    ______   _______  __      __\n /      \\|  \\    /  \\      |  \\      |      \\|       \\ |       \\  /      \\ |       \\|  \\    /  \\\n|  $$$$$$\\\\$$\\  /  $$      | $$       \\$$$$$$| $$$$$$$\\| $$$$$$$\\|  $$$$$$\\| $$$$$$$\\\\$$\\  /  $$\n| $$   \\$$ \\$$\\/  $$______ | $$        | $$  | $$__/ $$| $$__| $$| $$__| $$| $$__| $$ \\$$\\/  $$ \n| $$        \\$$  $$|      \\| $$        | $$  | $$    $$| $$    $$| $$    $$| $$    $$  \\$$  $$  \n| $$   __    \\$$$$  \\$$$$$$| $$        | $$  | $$$$$$$\\| $$$$$$$\\| $$$$$$$$| $$$$$$$\\   \\$$$$   \n| $$__/  \\   | $$          | $$_____  _| $$_ | $$__/ $$| $$  | $$| $$  | $$| $$  | $$   | $$    \n \\$$    $$   | $$          | $$     \\|   $$ \\| $$    $$| $$  | $$| $$  | $$| $$  | $$   | $$    \n  \\$$$$$$     \\$$           \\$$$$$$$$ \\$$$$$$ \\$$$$$$$  \\$$   \\$$ \\$$   \\$$ \\$$   \\$$    \\$$    \n\n\n");
+    printf("Bienvenue %s!\n\n",name[id]);
+    showB(nbrl,id,Books);
+}

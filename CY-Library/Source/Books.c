@@ -3,25 +3,10 @@
 #include <time.h>
 #include <string.h>
 #include "Library.h"
-int YorN();
-int nbrL(FILE *file);
-int chainDif(char *l,char*g);
 char vide[2]="aa";
 
-typedef struct 
-{
-    char name[30];
-    char author [30];
-    int type ;
-    int date ;
-} Book;
 
-Book Books[1000];
-
-
-
-
-int addB(int nbrl){
+int addB(int nbrl,Book Books[0]){
     char title[30];
     char auth[30];
     int dat;
@@ -43,9 +28,9 @@ int addB(int nbrl){
     if (answer!=0){
         printf("auteur:\n");
         scanf("%s",auth);
-        printf("En quelle anée est sortie le livre ? :\n");
-        dat = scan(0,2023);
-        printf("Quelle style de livre:\n\n1) Policier\n2) Romantique\n3) Poeme\n4) Fantastique\n5) Historique\n6) Documentaire\n7) Scientifique\n8) Bande dessinee\n9) Erotique\n10) Thriller\n11) Science Fiction\n12) autobiographique\n\n");
+        printf("En quelle année est sortie le livre ? :\n");
+        dat = scan(-2023,2023);
+        printf("Quelle style de livre:\n\n1) Policier\n2) Romantique\n3) Poeme\n4) Fantastique\n5) Historique\n6) Educatif\n7) Scientifique\n8) Bande dessinee\n9) Erotique\n10) Thriller\n11) Science Fiction\n12) autobiographique\n\n");
         style = scan(1,12);
         FILE *boo = fopen("./Data/Books.txt","r+");
         if(boo == NULL){boo = fopen("./Data/Books-save.txt","r+");}
@@ -55,7 +40,7 @@ int addB(int nbrl){
         printf("livre crée!\n");
         rewind(boo);
         fclose(boo);
-        return takeInf();
+        return takeInf(Books);
     } 
     
 }
@@ -64,27 +49,23 @@ int addB(int nbrl){
 
 
 
-void swapC(int a,int b){
+void swapC(int a,int b,Book Books[0]){
     char temp[30];
-    for(int i =0;i<30;i++){
-        strcpy(&temp[i] , &Books[a].name[i]);
-    }
-    for(int j =0;j<30;j++){
-        strcpy(&Books[a].name[j] , &Books[b].name[j]);
-    }
-    for(int k =0;k<30;k++){
-        strcpy(&Books[b].name[k] , &temp[k]);
-    }
+    
 
-    for(int l =0;l<30;l++){
-        strcpy(&temp[l] , &Books[a].author[l]);
-    }
-    for(int m =0;m<30;m++){
-        strcpy(&Books[a].author[m] ,&Books[b].author[m]);
-    }
-    for(int n =0;n<30;n++){
-        strcpy(&Books[b].author[n] , &temp[n]);
-    }
+    strcpy(&temp[0] , &Books[a].name[0]);
+
+    strcpy(&Books[a].name[0] , &Books[b].name[0]);
+    
+    strcpy(&Books[b].name[0] , &temp[0]);
+    
+
+    strcpy(&temp[0] , &Books[a].author[0]);
+    
+    strcpy(&Books[a].author[0] ,&Books[b].author[0]);
+    
+    strcpy(&Books[b].author[0] , &temp[0]);
+    
 
     int temp2 = Books[a].date ;
     Books[a].date = Books[b].date;
@@ -95,7 +76,7 @@ void swapC(int a,int b){
     Books[b].type = temp2 ;
     
 }
-int takeInf(){
+int takeInf(Book Books[0]){
 
     FILE *boo = fopen("./Data/Books.txt","r");
     if(boo == NULL){boo = fopen("./Data/Books-save.txt","r");}
@@ -109,11 +90,30 @@ int takeInf(){
 }
 
 
-int showName(int nbrl,int ted,int type,char*l ){
+int showName(int nbrl,int ted,int type,char*l,Book Books[0] ){
     int cont = 0;
     printf("\n\n");
+    if(ted==3000){
 
-        if(ted==4000){
+        for(int k=0;k<nbrl;k++){
+
+            cont=1;
+            printf("    %d) ",k+1);
+            for(int i=0;i<30;i++){
+                if(Books[k].name[i]=='\0'){printf(" || ");break;}
+                else if(Books[k].name[i]=='-'){printf(" ");}
+                else{printf("%c",Books[k].name[i]);}
+            }
+            for(int j=0;j<30;j++){
+                if(Books[k].author[j]=='\0'){printf(" || ");break;}
+                else if(Books[k].author[j]=='-'){printf(" ");}
+                else{printf("%c",Books[k].author[j]);}
+            }
+            printf("%d\n\n",Books[k].date);
+        }
+    }  
+
+        else if(ted==4000){
 
             for(int k=0;k<nbrl;k++){
 
@@ -223,11 +223,14 @@ int showName(int nbrl,int ted,int type,char*l ){
             }
         }
 
-    if(cont==0){printf("0 resultat trouve!\n");}
+    if(cont==0){
+        printf("0 resultat trouve!\n");
+        return -1;    
+    }
 }
 
 
-void TriALpha(int end,int ted){
+void TriALpha(int end,int ted,Book Books[0]){
 
     
     for(int i=0;i<end;i++){
@@ -247,13 +250,13 @@ void TriALpha(int end,int ted){
                 }
             }
         }
-        swapC(tri,i);
+        swapC(tri,i,Books);
 
     }
 }
 
 
-void TriDate(int nbrl){
+void TriDate(int nbrl,Book Books[0]){
 
     printf("Un tri :\n\n1) Croissant\n2) Décroissant\n");
     int answer = scan(1,2);
@@ -277,74 +280,77 @@ void TriDate(int nbrl){
                 }
             }   
         }  
-        swapC(tri,i);
+        swapC(tri,i,Books);
     }
-    showName(nbrl,4000,0,vide);
+    showName(nbrl,4000,0,vide,Books);
 }
 
 
-void SearchD(int nbrl){
+void SearchD(int nbrl,Book Books[0]){
 
-    TriALpha(nbrl,1);
+    TriALpha(nbrl,1,Books);
     printf("Choissisez la date:\n");
-    showName(nbrl,scan(-10000,2023),0,vide);
+    showName(nbrl,scan(-10000,2023),0,vide,Books);
 }
 
 
-int supB(int nbrl){
+int supB(int nbrl,Book Books[0]){
+    int test=1;
 
     rename("./Data/Books.txt","./Data/Books-save.txt");
     remove("./Data/Books.txt");
 
     printf("Choissisez le livre a suprimmer:\n");
-    for(int k=0;k<nbrl;k++){
-
-        showName(k,4000,0,vide);
-    }
+    showName(nbrl,3000,0,vide,Books);
+    
     int num =scan(1,nbrl)-1;
 
     FILE *boo = fopen("./Data/Books.txt","a");
     for(int j=0;j<nbrl;j++){
         if(j!=num){
-            if(j==nbrl-1){
+            if(test){
+
                 fprintf(boo,"%s %s %d %d",Books[j].name,Books[j].author,Books[j].date,Books[j].type);
             }
             else{
-                fprintf(boo,"%s %s %d %d\n",Books[j].name,Books[j].author,Books[j].date,Books[j].type);
+                fprintf(boo,"\n%s %s %d %d",Books[j].name,Books[j].author,Books[j].date,Books[j].type);
             }
+            test=0;
+            
         }
 
     }
 
     remove("./Data/Books-save.txt");
     fclose(boo);
-    return takeInf();
+    return takeInf(Books);
 }
 
-void SearchT(int nbrl){
+void SearchT(int nbrl,Book Books[0]){
 
-    printf("Quelle style de livre:\n\n1) Policier\n2) Romantique\n3) Poeme\n4) Fantastique\n5) Historique\n6) Documentaire\n7) Scientifique\n8) Bande dessinee\n9) Erotique\n10) Thriller\n11) Science Fiction\n12) autobiographique\n\n");
+    printf("Quelle style de livre:\n\n1) Policier\n2) Romantique\n3) Poeme\n4) Fantastique\n5) Historique\n6) Educatif\n7) Scientifique\n8) Bande dessinee\n9) Erotique\n10) Thriller\n11) Science Fiction\n12) autobiographique\n\n");
     int choice =scan(1,12);
-    TriALpha(nbrl,1);
-    showName(nbrl,5000,choice,vide);
+    TriALpha(nbrl,1,Books);
+    showName(nbrl,5000,choice,vide,Books);
 }
 
 
-int SearchN(int nbrl){
+int SearchN(int nbrl,Book Books[0]){
     
     char title[30];
     printf("Titre:\n");
     scanf("%s",title);
-    return showName(nbrl,6000,0,title);
+    return showName(nbrl,6000,0,title,Books);
 }
 
 
-void SearchA(int nbrl){
+void SearchA(int nbrl,Book Books[0]){
 
     char auth[30];
+    TriALpha(nbrl,1,Books);
     printf("Auteur:\n");
     scanf("%s",auth);
-    showName(nbrl,7000,0,auth);
+    showName(nbrl,7000,0,auth,Books);
 }
 
 
