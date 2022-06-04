@@ -42,6 +42,7 @@ int scan(int min,int max){
         }
         else{
             int ent = (int)ask;
+            printf("\n");
             return ent;
         }
         
@@ -122,11 +123,11 @@ int create(int nbrl){
     int answer=1;
     while(answer){
         answer = 2;
-        printf("Pseudo:\n");
+        printf("Ecrivez votre pseudo:\n");
         scanf("%s",username);
         for (int i=0;i<nbrl;i++){
             if (chainDif(username,name[i])){
-                printf("Pseudo deja utilise, voulez vous reesayer ?(oui/non)\n");
+                printf("Pseudo deja utilise, voulez vous reessayer ?(oui/non)\n");
                 answer =YorN();
                 
             }
@@ -134,7 +135,7 @@ int create(int nbrl){
         if(answer==2){break;}
     }
     if (answer!=0){
-        printf("MDP:\n");
+        printf("Ecrivez votre mot de passe:\n");
         scanf("%s",mdp);
         printf("Etes vous:\n\n1) Un eleve\n2) Un prof\n\n");
         typ = scan(1,2);
@@ -144,7 +145,7 @@ int create(int nbrl){
         fputc('\n',acc);
         vigenereEnc(mdp, "CYTECHLIBRARY", mdp2);
         fprintf(acc,"%s %s %d",username,mdp2,typ-1);
-        printf("Compte crée,veuillez vous connectez maintenant:\n");
+        printf("Compte cree !\n");
         rewind(acc);
         fclose(acc);
         return takeInfo();
@@ -159,20 +160,20 @@ int connect(int nbrl){
     char mdp2[15];
     int answer = 1;
     while(answer){
-        printf("Pseudo:\n");
+        printf("Ecrivez votre pseudo:\n");
         scanf("%s",username);
         for (int i=0;i<nbrl;i++){
             if (chainDif(username,name[i])){
                 while(answer){
-                    printf("MDP:\n");
+                    printf("Ecrivez votre mot de passe:\n");
                     scanf("%s",mdp);
                     vigenereEnc(mdp, "CYTECHLIBRARY", mdp2);
                     if (chainDif(mdp2,pw[i])){
-                        printf("connecte\n");
+                        printf("Connecte !\n");
                         return i;
                     }
                     else{
-                        printf("mauvais mdp,voulez vous reesayer(oui/non)?\n");
+                        printf("Mauvais mot de passe,voulez vous reessayer(oui/non)?\n");
                         answer =YorN();
                         
                     }
@@ -180,8 +181,8 @@ int connect(int nbrl){
                 break;
             }
         }
-        if(answer){printf("pseudo inconnue,voulez vous reesayer(oui/non)?\n");}
-        else{printf("voulez vous reesayer avec un autre pseudo(oui/non)?\n");}
+        if(answer){printf("Pseudo inconnu,voulez vous reessayer(oui/non)?\n");}
+        else{printf("Voulez vous reessayer avec un autre pseudo(oui/non)?\n");}
         answer =YorN();
     }
     return -1;
@@ -201,13 +202,12 @@ void editPW(int nbrl,int id){
     int answer = 1;
     rename("./Data/Account.txt","./Data/Account-save.txt");
     remove("./Data/Account.txt");
-    FILE *acc = fopen("./Data/Account.txt","a");
     while(answer){
-        printf("Ecrivez votre ancien mdp:");
+        printf("Ecrivez votre ancien mot de passe:\n");
         scanf("%s",mdp);
         vigenereEnc(mdp, "CYTECHLIBRARY", mdp2);
         if (chainDif(mdp2,pw[id])){
-            printf("Ecrivez votre nvx mdp:");
+            printf("Ecrivez votre nouveaux mot de passe:\n");
             scanf("%s",mdp);
             vigenereEnc(mdp, "CYTECHLIBRARY", mdp2);
             for(int i=0; i<15;i++){
@@ -217,10 +217,11 @@ void editPW(int nbrl,int id){
             break;
         }
         else{
-            if(answer){printf("Mauvais mdp,voulez vous reesayer(oui/non)?\n");}
+            if(answer){printf("Mauvais mot de passe,voulez vous reessayer(oui/non)?\n");}
             answer = YorN();
         }
     }
+    FILE *acc = fopen("./Data/Account.txt","a");
     for(int j=0;j<nbrl;j++){
 
         if(j==nbrl-1){

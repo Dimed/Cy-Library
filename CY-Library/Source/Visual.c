@@ -24,7 +24,7 @@ int connec(){
 int Menu(){
     system("clear");
     printf("\n\n  ______  __      __        __        ______  _______   _______    ______   _______  __      __\n /      \\|  \\    /  \\      |  \\      |      \\|       \\ |       \\  /      \\ |       \\|  \\    /  \\\n|  $$$$$$\\\\$$\\  /  $$      | $$       \\$$$$$$| $$$$$$$\\| $$$$$$$\\|  $$$$$$\\| $$$$$$$\\\\$$\\  /  $$\n| $$   \\$$ \\$$\\/  $$______ | $$        | $$  | $$__/ $$| $$__| $$| $$__| $$| $$__| $$ \\$$\\/  $$ \n| $$        \\$$  $$|      \\| $$        | $$  | $$    $$| $$    $$| $$    $$| $$    $$  \\$$  $$  \n| $$   __    \\$$$$  \\$$$$$$| $$        | $$  | $$$$$$$\\| $$$$$$$\\| $$$$$$$$| $$$$$$$\\   \\$$$$   \n| $$__/  \\   | $$          | $$_____  _| $$_ | $$__/ $$| $$  | $$| $$  | $$| $$  | $$   | $$    \n \\$$    $$   | $$          | $$     \\|   $$ \\| $$    $$| $$  | $$| $$  | $$| $$  | $$   | $$    \n  \\$$$$$$     \\$$           \\$$$$$$$$ \\$$$$$$ \\$$$$$$$  \\$$   \\$$ \\$$   \\$$ \\$$   \\$$    \\$$    \n\n\n");
-    printf("Bienvenu sur CY-LIBRARY !!\n    Que voulez vous faire ?\n\n");
+    printf("Bienvenu sur CY-LIBRARY !!\nQue voulez vous faire ?\n\n");
     return connec();
 }
 
@@ -38,7 +38,7 @@ void voiB(int nbrl,Book Books[0]){
         choix = scan(1,2);
 
         if (choix==1){
-            printf("Par:\n\n1) Titre\n2) Auteur\n\n");
+            printf("Selon le:\n\n1) Titre\n2) Auteur\n\n");
             choix = scan(1,2);
             char vide[1];
             if (choix ==1){
@@ -94,7 +94,7 @@ int guest(){
 
 int prof(){
     printf("\n======================================================================\n\n");
-    printf("1) Voir les livre disponibles\n2) Emprunter un livre\n3) Rendre un livre\n4) Voir vos emprunts\n5) Ajouter un livre\n6) Supprmier un livre\n7) Changer mdp\n8) Deconnexion\n9) Quitter");
+    printf("1) Voir les livres disponibles\n2) Emprunter un livre\n3) Rendre un livre\n4) Voir vos emprunts\n5) Ajouter un livre\n6) Supprimer un livre\n7) Changer mdp\n8) Deconnexion\n9) Quitter");
     printf("\n\n======================================================================\n\n");
     int choix = scan(1,9);
     if(choix == 9){
@@ -109,7 +109,7 @@ int prof(){
 
 int stud(){
     printf("\n======================================================================\n\n");
-    printf("1) Voir les livre disponibles\n2) Emprunter un livre\n3) Rendre un livre\n4) Voir vos emprunts \n5) Changer mdp\n6) Deconnexion\n7) Quitter");
+    printf("1) Voir les livres disponibles\n2) Emprunter un livre\n3) Rendre un livre\n4) Voir vos emprunts \n5) Changer mdp\n6) Deconnexion\n7) Quitter");
     printf("\n\n======================================================================\n\n");
     int choix = scan(1,7);
     if(choix == 7){

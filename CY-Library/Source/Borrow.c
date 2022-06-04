@@ -54,10 +54,9 @@ int takeB(int nbrl,int nbrl2,int id,Book Books[0],int type){
     int take =0;
     int answer = 1;
     while(1){
-        printf("Ecrivez le nom du livre que vous voulez emprunte\n");
         int idB = SearchN( nbrl2, Books);
         if(idB ==-1){
-            printf("Aucun livre a ce nom, voulez vous emprunter un autre livre?\n");
+            printf("Aucun livre a ce nom, voulez vous emprunter un autre livre (oui/non)?\n");
             answer = YorN();
             if(answer==0){break;}
         }
@@ -79,7 +78,7 @@ int takeB(int nbrl,int nbrl2,int id,Book Books[0],int type){
             else if (answer==2){
 
                 if(checkT(nbrl,id,-1)){
-                    printf("Veuillez rendre vos livre dont le temps est dépasse avant d'emprunte un autre livre");
+                    printf("Veuillez rendre vos emprunts expire avant de reesayer d'emprunter.");
                     return nbrl;
                 }
 
@@ -94,7 +93,7 @@ int takeB(int nbrl,int nbrl2,int id,Book Books[0],int type){
                     else if (id==idAccount[i]){
                         take++;
                         if((type == 0 && take>=3) || (type == 1 && take>=5)){
-                                printf("Trop de livre déja emprunté,veuillez en rendre pour en emprunter d'autre\n");
+                                printf("Trop de livre deja emprunte,veuillez en rendre pour en emprunter d'autre\n");
                             return nbrl;
                         }
                     }
@@ -149,7 +148,7 @@ int backB (int nbrl,int id,Book Books[0]){
         }
     }
     if(c==0){
-        printf("Aucun livre emprunté!\n");
+        printf("Aucun livre emprunte!\n");
         return nbrl;
     }
     else{
@@ -159,7 +158,7 @@ int backB (int nbrl,int id,Book Books[0]){
         rename("./Data/Borrow.txt","./Data/Borrow-save.txt");
         remove("./Data/Borrow.txt");
 
-        printf("Quelle livre voulez vous rendre?\n");
+        printf("Quelle livre voulez vous rendre :\n");
         int num =scan(1,c)-1;
 
         FILE *bor = fopen("./Data/Borrow.txt","a");
@@ -191,13 +190,14 @@ void showB(int nbrl,int id,Book Books[0]){
 
     time_t tleft;
     struct tm *local; 
-    printf("Voici vos livres empruntee :\n\n");
+    int test =1;
+    
     for(int i=0;i<nbrl;i++){
 
         if(idAccount[i]==id){
 
             idBook[i]= idBook[i];
-        
+            if (test){printf("Voici vos livres empruntes :\n\n");test=0;}
             printf("    - ");
             for(int k=0;k<30;k++){
                 if(Books[idBook[i]].name[k]=='\0'){printf(" || ");break;}
@@ -220,4 +220,5 @@ void showB(int nbrl,int id,Book Books[0]){
             }
         }
     }
+    if(test){printf("Aucun livre emprunte!\n");}
 }

@@ -14,11 +14,11 @@ int addB(int nbrl,Book Books[0]){
     int answer=1;
     while(answer){
         answer = 2;
-        printf("titre (- a la place des espaces):\n");
+        printf("Ecrivez le titre du livre (mettez des - a la place des expaces svp):\n");
         scanf("%s",title);
         for (int i=0;i<nbrl;i++){
             if (chainDif(title,Books[i].name)){
-                printf("Titre deja utilise, voulez vous reesayer ?(oui/non)\n");
+                printf("Titre deja utilise, voulez vous reessayer ?(oui/non)\n");
                 answer =YorN();
                 
             }
@@ -26,18 +26,18 @@ int addB(int nbrl,Book Books[0]){
         if(answer==2){break;}
     }
     if (answer!=0){
-        printf("auteur:\n");
+        printf("Ecrivez l'auteur du livre (mettez des - a la place des expaces svp):\n");
         scanf("%s",auth);
-        printf("En quelle année est sortie le livre ? :\n");
+        printf("En quelle annee est sorti le livre ? :\n");
         dat = scan(-2023,2023);
-        printf("Quelle style de livre:\n\n1) Policier\n2) Romantique\n3) Poeme\n4) Fantastique\n5) Historique\n6) Educatif\n7) Scientifique\n8) Bande dessinee\n9) Erotique\n10) Thriller\n11) Science Fiction\n12) autobiographique\n\n");
+        printf("Quel est le style de livre:\n\n1) Policier\n2) Romantique\n3) Poeme\n4) Fantastique\n5) Historique\n6) Educatif\n7) Scientifique\n8) Bande dessinee\n9) Erotique\n10) Thriller\n11) Science Fiction\n12) Biographique\n\n");
         style = scan(1,12);
         FILE *boo = fopen("./Data/Books.txt","r+");
         if(boo == NULL){boo = fopen("./Data/Books-save.txt","r+");}
         fseek(boo,0,SEEK_END);
         fputc('\n',boo);
         fprintf(boo,"%s %s %d %d",title,auth,dat,style);
-        printf("livre crée!\n");
+        printf("livre crée !\n");
         rewind(boo);
         fclose(boo);
         return takeInf(Books);
@@ -258,7 +258,7 @@ void TriALpha(int end,int ted,Book Books[0]){
 
 void TriDate(int nbrl,Book Books[0]){
 
-    printf("Un tri :\n\n1) Croissant\n2) Décroissant\n");
+    printf("Voulez vous triez les dates de facon :\n\n1) Croissant\n2) Decroissant\n");
     int answer = scan(1,2);
 
     for(int i=0;i<nbrl;i++){
@@ -289,7 +289,7 @@ void TriDate(int nbrl,Book Books[0]){
 void SearchD(int nbrl,Book Books[0]){
 
     TriALpha(nbrl,1,Books);
-    printf("Choissisez la date:\n");
+    printf("Choisissez la date:\n");
     showName(nbrl,scan(-10000,2023),0,vide,Books);
 }
 
@@ -300,7 +300,7 @@ int supB(int nbrl,Book Books[0]){
     rename("./Data/Books.txt","./Data/Books-save.txt");
     remove("./Data/Books.txt");
 
-    printf("Choissisez le livre a suprimmer:\n");
+    printf("Choisissez le livre a supprimer:\n");
     showName(nbrl,3000,0,vide,Books);
     
     int num =scan(1,nbrl)-1;
@@ -328,7 +328,7 @@ int supB(int nbrl,Book Books[0]){
 
 void SearchT(int nbrl,Book Books[0]){
 
-    printf("Quelle style de livre:\n\n1) Policier\n2) Romantique\n3) Poeme\n4) Fantastique\n5) Historique\n6) Educatif\n7) Scientifique\n8) Bande dessinee\n9) Erotique\n10) Thriller\n11) Science Fiction\n12) autobiographique\n\n");
+    printf("Quel style de livre voulez vous:\n\n1) Policier\n2) Romantique\n3) Poeme\n4) Fantastique\n5) Historique\n6) Educatif\n7) Scientifique\n8) Bande dessinee\n9) Erotique\n10) Thriller\n11) Science Fiction\n12) Biographique\n\n");
     int choice =scan(1,12);
     TriALpha(nbrl,1,Books);
     showName(nbrl,5000,choice,vide,Books);
@@ -338,7 +338,7 @@ void SearchT(int nbrl,Book Books[0]){
 int SearchN(int nbrl,Book Books[0]){
     
     char title[30];
-    printf("Titre:\n");
+    printf("Quelle est le titre du livre que vous cherchez (mettez des - a la place des expaces svp):\n");
     scanf("%s",title);
     return showName(nbrl,6000,0,title,Books);
 }
@@ -348,7 +348,7 @@ void SearchA(int nbrl,Book Books[0]){
 
     char auth[30];
     TriALpha(nbrl,1,Books);
-    printf("Auteur:\n");
+    printf("Quelle auteur cherchez vous (mettez des - a la place des expaces svp):\n");
     scanf("%s",auth);
     showName(nbrl,7000,0,auth,Books);
 }
