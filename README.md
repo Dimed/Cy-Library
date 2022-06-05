@@ -32,6 +32,6 @@ Executer la commande <code>make</code> pour compiler le projet puis lancer le av
 * Il faut lire les différentes instructions du programme et les respecter.
 * Si une liste de chiffres est proposée, pour choisir il faut entrer le chiffre qui correspond à son choix.
 * Si (oui/non) est demandé il faut entrer oui ou non pour repondre.
-* Lorsque il est demandé de mettre un maximum de caractère,si cela n'est pas respecté, seul les caractéres inférieurs à ce maximum seront entrés<br/> 
+* Lorsque il est demandé de mettre un maximum de caractère, si cela n'est pas respecté, seul les caractéres inférieurs à ce maximum seront entrés.<br/> 
 --------->   _ex : si on entre bonjour avec 3 caractères max, le programme retiendra "bon"_
 * Lorsque il est demandé de ne pas mettre d'espace, si cela n'est pas respecté, le <code>scanf</code> ne retiendra que la partie avant le 1er espace et la partie suivante sera prise par le prochain <code>scanf</code>.
