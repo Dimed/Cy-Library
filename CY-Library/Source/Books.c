@@ -1,57 +1,37 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <time.h>
-#include <string.h>
 #include "Library.h"
-char vide[2]="aa";
+ 
+char voidC[1];
 
 
-int addB(int nbrl,Book Books[0]){
-    char title[30];
-    char auth[30];
-    int dat;
-    int style;
-    int answer=1;
-    while(answer){
-        answer = 2;
-        printf("Ecrivez le titre du livre (mettez des - a la place des expaces svp):\n");
-        scanf("%s",title);
-        for (int i=0;i<nbrl;i++){
-            if (chainDif(title,Books[i].name)){
-                printf("Titre deja utilise, voulez vous reessayer ?(oui/non)\n");
-                answer =YorN();
-                
-            }
-        }
-        if(answer==2){break;}
+
+// Take data from Books.txt and stock them in Books
+// Return the number of line in Books.txt (the books number)
+
+
+int stockBook(Book Books[0]){
+
+    FILE *boo = fopen("./Data/Books.txt","r");
+    if(boo == NULL){boo = fopen("./Data/Books-save.txt","r");}
+
+    int nbrl = nbrL(boo);
+
+    for(int i=0;i<nbrl;i++){
+        fscanf(boo,"%s %s %d %d",Books[i].name,Books[i].author,&Books[i].date,&Books[i].style);
     }
-    if (answer!=0){
-        printf("Ecrivez l'auteur du livre (mettez des - a la place des expaces svp):\n");
-        scanf("%s",auth);
-        printf("En quelle annee est sorti le livre ? :\n");
-        dat = scan(-2023,2023);
-        printf("Quel est le style de livre:\n\n1) Policier\n2) Romantique\n3) Poeme\n4) Fantastique\n5) Historique\n6) Educatif\n7) Scientifique\n8) Bande dessinee\n9) Erotique\n10) Thriller\n11) Science Fiction\n12) Biographique\n\n");
-        style = scan(1,12);
-        FILE *boo = fopen("./Data/Books.txt","r+");
-        if(boo == NULL){boo = fopen("./Data/Books-save.txt","r+");}
-        fseek(boo,0,SEEK_END);
-        fputc('\n',boo);
-        fprintf(boo,"%s %s %d %d",title,auth,dat,style);
-        printf("livre crée !\n");
-        rewind(boo);
-        fclose(boo);
-        return takeInf(Books);
-    } 
+
+    fclose(boo);
+    return nbrl;
     
 }
 
 
 
+// Swap lane in the structure where all the books are stocked
+// Take the 2 lane which need to be swap and the structure where all the books are stocked
 
+void swapLine(int a,int b,Book Books[0]){
 
-void swapC(int a,int b,Book Books[0]){
-    char temp[30];
-    
+    char temp[100];
 
     strcpy(&temp[0] , &Books[a].name[0]);
 
@@ -71,286 +51,523 @@ void swapC(int a,int b,Book Books[0]){
     Books[a].date = Books[b].date;
     Books[b].date = temp2 ;
 
-    temp2 = Books[a].type ;
-    Books[a].type = Books[b].type;
-    Books[b].type = temp2 ;
-    
-}
-int takeInf(Book Books[0]){
 
-    FILE *boo = fopen("./Data/Books.txt","r");
-    if(boo == NULL){boo = fopen("./Data/Books-save.txt","r");}
-    int nbrl =nbrL(boo);
-    for(int i=0;i<nbrl;i++){
-        fscanf(boo,"%s %s %d %d",Books[i].name,Books[i].author,&Books[i].date,&Books[i].type);
-    }
-    fclose(boo);
-    return nbrl;
+    temp2 = Books[a].style ;
+    Books[a].style = Books[b].style;
+    Books[b].style = temp2 ;
     
 }
 
 
-int showName(int nbrl,int ted,int type,char*l,Book Books[0] ){
-    int cont = 0;
+
+// Display books by some criteria
+// Take the books nuber, the date (if wanted), the style (if wanted), the author/title (if wanted) and the structure where all the books are stocked
+
+int showBook(int nbrl,int date,int style,char*str,Book Books[0]){
+
+    int check = 0;
     printf("\n\n");
-    if(ted==3000){
 
+
+    // Show all books in list ( 1) 2) 3) ...)
+
+    if(date==3000){
         for(int k=0;k<nbrl;k++){
 
-            cont=1;
+            check=1;
+
             printf("    %d) ",k+1);
-            for(int i=0;i<30;i++){
-                if(Books[k].name[i]=='\0'){printf(" || ");break;}
-                else if(Books[k].name[i]=='-'){printf(" ");}
-                else{printf("%c",Books[k].name[i]);}
+
+            for(int i=0;i<100;i++){
+
+                if(Books[k].name[i]=='\0'){
+                    printf(" || ");break;
+                }
+                else if(Books[k].name[i]=='-'){
+                    printf(" ");
+                }
+                else{
+                    printf("%c",Books[k].name[i]);
+                }
             }
-            for(int j=0;j<30;j++){
-                if(Books[k].author[j]=='\0'){printf(" || ");break;}
-                else if(Books[k].author[j]=='-'){printf(" ");}
-                else{printf("%c",Books[k].author[j]);}
+            for(int j=0;j<50;j++){
+
+                if(Books[k].author[j]=='\0'){
+                    printf(" || ");break;
+                }
+                else if(Books[k].author[j]=='-'){
+                    printf(" ");
+                }
+                else{
+                    printf("%c",Books[k].author[j]);
+                }
             }
+
             printf("%d\n\n",Books[k].date);
         }
-    }  
+    } 
 
-        else if(ted==4000){
 
-            for(int k=0;k<nbrl;k++){
+    // Show all books 
 
-                cont=1;
+    else if(date==4000){
+        for(int k=0;k<nbrl;k++){
+
+            check=1;
+
+            printf("    - ");
+
+            for(int i=0;i<100;i++){
+
+                if(Books[k].name[i]=='\0'){
+                    printf(" || ");
+                    break;
+                }
+                else if(Books[k].name[i]=='-'){
+                    printf(" ");
+                }
+                else{
+                    printf("%c",Books[k].name[i]);
+                }
+            }
+            for(int j=0;j<50;j++){
+
+                if(Books[k].author[j]=='\0'){
+                    printf(" || ");break;
+                }
+                    else if(Books[k].author[j]=='-'){
+                    printf(" ");
+                }
+                else{
+                    printf("%c",Books[k].author[j]);
+                }
+            }
+
+            printf("%d\n\n",Books[k].date);
+        }
+    }
+
+
+    // Show books by style
+
+    else if(date==5000){
+        for(int k=0;k<nbrl;k++){
+            
+            if(Books[k].style==style){
+                check=1;
+
                 printf("    - ");
-                for(int i=0;i<30;i++){
-                    if(Books[k].name[i]=='\0'){printf(" || ");break;}
-                    else if(Books[k].name[i]=='-'){printf(" ");}
-                    else{printf("%c",Books[k].name[i]);}
+
+                for(int i=0;i<100;i++){
+
+                    if(Books[k].name[i]=='\0'){
+                        printf(" || ");
+                        break;
+                    }
+                    else if(Books[k].name[i]=='-'){
+                        printf(" ");
+                    }
+                    else{
+                        printf("%c",Books[k].name[i]);
+                    }
                 }
-                for(int j=0;j<30;j++){
-                    if(Books[k].author[j]=='\0'){printf(" || ");break;}
-                    else if(Books[k].author[j]=='-'){printf(" ");}
-                    else{printf("%c",Books[k].author[j]);}
+                for(int j=0;j<50;j++){
+
+                    if(Books[k].author[j]=='\0'){
+                        printf(" || ");
+                        break;
+                    }
+                    else if(Books[k].author[j]=='-'){
+                        printf(" ");
+                    }
+                    else{
+                        printf("%c",Books[k].author[j]);
+                    }
                 }
+                
                 printf("%d\n\n",Books[k].date);
             }
-        }   
-        else if(ted==5000){
+        }
+    }
 
-            for(int k=0;k<nbrl;k++){
+
+    // Show books by title
+
+    else if(date==6000){
+        for(int k=0;k<nbrl;k++){
             
-                if(Books[k].type==type){
+            if(strDif(Books[k].name,str)){
+                check=1;
 
-                    cont=1;
-                    printf("    - ");
-                    for(int i=0;i<30;i++){
-                        if(Books[k].name[i]=='\0'){printf(" || ");break;}
-                        else if(Books[k].name[i]=='-'){printf(" ");}
-                        else{printf("%c",Books[k].name[i]);}
+                printf("    - ");
+
+                for(int i=0;i<100;i++){
+
+                    if(Books[k].name[i]=='\0'){
+                        printf(" || ");
+                        break;
                     }
-                    for(int j=0;j<30;j++){
-                        if(Books[k].author[j]=='\0'){printf(" || ");break;}
-                        else if(Books[k].author[j]=='-'){printf(" ");}
-                        else{printf("%c",Books[k].author[j]);}
+                    else if(Books[k].name[i]=='-'){
+                        printf(" ");
                     }
-                    printf("%d\n\n",Books[k].date);
+                    else{
+                        printf("%c",Books[k].name[i]);
+                    }
                 }
+                for(int j=0;j<50;j++){
+
+                    if(Books[k].author[j]=='\0'){
+                        printf(" || ");
+                        break;
+                        }
+                    else if(Books[k].author[j]=='-'){
+                        printf(" ");
+                    }
+                    else{
+                        printf("%c",Books[k].author[j]);
+                    }
+                }
+
+                printf("%d\n\n",Books[k].date);
+
+                return k;
             }
         }
-        else if(ted==6000){
+    }
 
-            for(int k=0;k<nbrl;k++){
+
+    // Show books by author
+
+    else if(date==7000){
+        for(int k=0;k<nbrl;k++){
             
-                if(chainDif(Books[k].name,l)){
+            if(strDif(Books[k].author,str)){
+                check=1;
 
-                    cont=1;
-                    printf("    - ");
-                    for(int i=0;i<30;i++){
-                        if(Books[k].name[i]=='\0'){printf(" || ");break;}
-                        else if(Books[k].name[i]=='-'){printf(" ");}
-                        else{printf("%c",Books[k].name[i]);}
+                printf("    - ");
+
+                for(int i=0;i<100;i++){
+
+                    if(Books[k].name[i]=='\0'){
+                        printf(" || ");
+                        break;
                     }
-                    for(int j=0;j<30;j++){
-                        if(Books[k].author[j]=='\0'){printf(" || ");break;}
-                        else if(Books[k].author[j]=='-'){printf(" ");}
-                        else{printf("%c",Books[k].author[j]);}
+                    else if(Books[k].name[i]=='-'){
+                        printf(" ");
                     }
-                    printf("%d\n\n",Books[k].date);
-                    return k;
+                    else{
+                        printf("%c",Books[k].name[i]);
+                    }
                 }
+                for(int j=0;j<50;j++){
+
+                    if(Books[k].author[j]=='\0'){
+                        printf(" || ");
+                        break;
+                    }
+                    else if(Books[k].author[j]=='-'){
+                        printf(" ");
+                    }
+                    else{
+                        printf("%c",Books[k].author[j]);
+                    }
+                }
+
+                printf("%d\n\n",Books[k].date);
             }
         }
-        else if(ted==7000){
+    }
 
-            for(int k=0;k<nbrl;k++){
-            
-                if(chainDif(Books[k].author,l)){
 
-                    cont=1;
-                    printf("    - ");
-                    for(int i=0;i<30;i++){
-                        if(Books[k].name[i]=='\0'){printf(" || ");break;}
-                        else if(Books[k].name[i]=='-'){printf(" ");}
-                        else{printf("%c",Books[k].name[i]);}
-                    }
-                    for(int j=0;j<30;j++){
-                        if(Books[k].author[j]=='\0'){printf(" || ");break;}
-                        else if(Books[k].author[j]=='-'){printf(" ");}
-                        else{printf("%c",Books[k].author[j]);}
-                    }
-                    printf("%d\n\n",Books[k].date);
-                }
-            }
-        }
+    // Show books by date
           
-        else if(ted<2500){
+    else if(date<2500){
             
-            for(int k=0;k<nbrl;k++){
+        for(int k=0;k<nbrl;k++){
 
-                if(Books[k].date==ted){
+            if(Books[k].date==date){
+                check=1;
 
-                    cont=1;
-                    printf("    - ");
-                    for(int i=0;i<30;i++){
-                        if(Books[k].name[i]=='\0'){printf(" || ");break;}
-                        else if(Books[k].name[i]=='-'){printf(" ");}
-                        else{printf("%c",Books[k].name[i]);}
+                printf("    - ");
+
+                for(int i=0;i<100;i++){
+
+                    if(Books[k].name[i]=='\0'){
+                        printf(" || ");
+                        break;
                     }
-                    for(int j=0;j<30;j++){
-                        if(Books[k].author[j]=='\0'){printf(" || ");break;}
-                        else if(Books[k].author[j]=='-'){printf(" ");}
-                        else{printf("%c",Books[k].author[j]);}
+                    else if(Books[k].name[i]=='-'){
+                        printf(" ");
                     }
-                    printf("%d\n\n",Books[k].date);
+                    else{
+                        printf("%c",Books[k].name[i]);
+                    }
                 }
+                for(int j=0;j<50;j++){
+
+                    if(Books[k].author[j]=='\0'){
+                        printf(" || ");
+                        break;
+                        }
+                    else if(Books[k].author[j]=='-'){
+                        printf(" ");
+                    }
+                    else{
+                        printf("%c",Books[k].author[j]);
+                    }
+                }
+
+                printf("%d\n\n",Books[k].date);
             }
         }
-
-    if(cont==0){
+    }
+    if(check==0){
         printf("0 resultat trouve!\n");
-        return -1;    
+
+        return -1;
     }
 }
 
 
-void TriALpha(int end,int ted,Book Books[0]){
 
-    
-    for(int i=0;i<end;i++){
-        int tri = i ;
-        if(ted){
-            for(int j=1+i;j<end;j++){
-                if(strcmp(Books[tri].name,Books[j].name)>0){
-                    tri = j;
-                }
+// Add a book if you are a teacher
+// Take books number and the structure where all the books are stocked
+// Return the new books number
+
+int addBook(int nbrl,Book Books[0]){
+
+    char title[100];
+    char author[50];
+    int date;
+    int style;
+    int answer=1;
+
+
+    // Check if the title is already used
+
+    while(answer){
+
+        answer = 2;
+
+        printf("Ecrivez le titre du livre (mettez des - a la place des expaces et 100 caractere max):\n");
+        scanf("%100s",title);
+
+        for (int i=0;i<nbrl;i++){
+
+            if (strDif(title,Books[i].name)){
+                printf("Titre deja utilise, voulez vous reessayer ?(oui/non)\n");
+
+                answer =YorN();    
             }
         }
-        else{
 
-            for(int j=1+i;j<end;j++){
-                if(strcmp(Books[tri].author,Books[j].author)>0){
-                    tri = j;
-                }
-            }
+        if(answer==2){
+            break;
         }
-        swapC(tri,i,Books);
-
     }
+    if (answer!=0){
+
+        printf("Ecrivez l'auteur du livre (mettez des - a la place des expaces et 100 caractere max):\n");
+        scanf("%50s",author);
+
+        printf("En quelle annee est sorti le livre ? :\n");
+        date = scan(-2023,2023);
+
+        printf("Quel est le style de livre:\n\n1) Policier\n2) Romantique\n3) Poeme\n4) Fantastique\n5) Historique\n6) Educatif\n7) Scientifique\n8) Bande dessinee\n9) Erotique\n10) Thriller\n11) Science Fiction\n12) Biographique\n\n");
+        style = scan(1,12);
+
+
+        // Save the book in the file 
+
+        FILE *boo = fopen("./Data/Books.txt","r+");
+        if(boo == NULL){boo = fopen("./Data/Books-save.txt","r+");}
+
+        fseek(boo,0,SEEK_END);
+        fputc('\n',boo);
+
+        fprintf(boo,"%s %s %d %d",title,author,date,style);
+
+        printf("livre crée !\n");
+
+        rewind(boo);
+        fclose(boo);
+        return stockBook(Books);
+    }    
 }
 
 
-void TriDate(int nbrl,Book Books[0]){
 
-    printf("Voulez vous triez les dates de facon :\n\n1) Croissant\n2) Decroissant\n");
-    int answer = scan(1,2);
+// Delete a book if you are a teacher
+// Take books number and the structure where all the books are stocked
+// Return the new books number
 
-    for(int i=0;i<nbrl;i++){
-        int tri = i;
+int delBook(int nbrl,Book Books[0]){
 
-        if(answer == 1){
-    
-            for(int j=1+i;j<nbrl;j++){
-                if(Books[tri].date>Books[j].date){
-                    tri = j;
-                }
-            }
-        }
-        else{
-
-            for(int j=1+i;j<nbrl;j++){
-                if(Books[tri].date<Books[j].date){
-                    tri = j;
-                }
-            }   
-        }  
-        swapC(tri,i,Books);
-    }
-    showName(nbrl,4000,0,vide,Books);
-}
-
-
-void SearchD(int nbrl,Book Books[0]){
-
-    TriALpha(nbrl,1,Books);
-    printf("Choisissez la date:\n");
-    showName(nbrl,scan(-10000,2023),0,vide,Books);
-}
-
-
-int supB(int nbrl,Book Books[0]){
-    int test=1;
+    int check=1;
 
     rename("./Data/Books.txt","./Data/Books-save.txt");
     remove("./Data/Books.txt");
 
     printf("Choisissez le livre a supprimer:\n");
-    showName(nbrl,3000,0,vide,Books);
+    showBook(nbrl,3000,0,voidC,Books);
     
     int num =scan(1,nbrl)-1;
 
-    FILE *boo = fopen("./Data/Books.txt","a");
-    for(int j=0;j<nbrl;j++){
-        if(j!=num){
-            if(test){
 
-                fprintf(boo,"%s %s %d %d",Books[j].name,Books[j].author,Books[j].date,Books[j].type);
+    // Remove the book from the file 
+
+    FILE *boo = fopen("./Data/Books.txt","a");
+
+    for(int j=0;j<nbrl;j++){
+
+        if(j!=num){
+            if(check){
+                fprintf(boo,"%s %s %d %d",Books[j].name,Books[j].author,Books[j].date,Books[j].style);
             }
             else{
-                fprintf(boo,"\n%s %s %d %d",Books[j].name,Books[j].author,Books[j].date,Books[j].type);
+                fprintf(boo,"\n%s %s %d %d",Books[j].name,Books[j].author,Books[j].date,Books[j].style);
             }
-            test=0;
             
+            check=0;  
         }
-
     }
 
     remove("./Data/Books-save.txt");
     fclose(boo);
-    return takeInf(Books);
+    return stockBook(Books);
 }
 
-void SearchT(int nbrl,Book Books[0]){
+
+
+// Sort books in alphabetical order 
+// Take the books number, a int (1 for sort title and 0 for author) and the structure where all the books are stocked
+
+void sortAlpha(int nbrl,int check,Book Books[0]){
+
+    int sort ;
+
+    for(int i=0;i<nbrl;i++){
+
+        sort = i ;
+
+        if(check){
+            for(int j=1+i;j<nbrl;j++){
+
+                if(strcmp(Books[sort].name,Books[j].name)>0){
+                    sort = j;
+                }
+            }
+        }
+        else{
+            for(int j=1+i;j<nbrl;j++){
+
+                if(strcmp(Books[sort].author,Books[j].author)>0){
+                    sort = j;
+                }
+            }
+        }
+
+        swapLine(sort,i,Books);
+    }
+}
+
+
+
+// Sort books in date order 
+// Take the books number and the structure where all the books are stocked
+
+void sortDate(int nbrl,Book Books[0]){
+
+    int sort;
+
+    sortAlpha(nbrl,1,Books);
+
+    printf("Voulez vous triez les dates de facon :\n\n1) Croissant\n2) Decroissant\n");
+    int answer = scan(1,2);
+
+    for(int i=0;i<nbrl;i++){
+
+        sort = i;
+
+        if(answer == 1){
+            for(int j=1+i;j<nbrl;j++){
+
+                if(Books[sort].date>Books[j].date){
+                    sort = j;
+                }
+            }
+        }
+        else{
+            for(int j=1+i;j<nbrl;j++){
+
+                if(Books[sort].date<Books[j].date){
+                    sort = j;
+                }
+            }   
+        } 
+
+        swapLine(sort,i,Books);
+    }
+
+    showBook(nbrl,4000,0,voidC,Books);
+}
+
+
+
+// Search for a book by title
+// Take the books number and the structure where all the books are stocked and return the book id
+
+int searchTitle(int nbrl,Book Books[0]){
+    
+    char title[100];
+
+    printf("Quelle est le titre du livre que vous cherchez (mettez des - a la place des expaces svp):\n");
+    scanf("%s",title);
+
+    return showBook(nbrl,6000,0,title,Books);
+}
+
+
+
+// Search for a book by author
+// Take the books number and the structure where all the books are stocked
+
+void searchAuthor(int nbrl,Book Books[0]){
+
+    char author[50];
+
+    sortAlpha(nbrl,1,Books);
+
+    printf("Quelle auteur cherchez vous (mettez des - a la place des expaces svp):\n");
+    scanf("%50s",author);
+
+    showBook(nbrl,7000,0,author,Books);
+}
+
+
+
+// Search for a book by date
+// Take the books number and the structure where all the books are stocked
+
+void searchDate(int nbrl,Book Books[0]){
+
+    sortAlpha(nbrl,1,Books);
+
+    printf("Choisissez la date:\n");
+    showBook(nbrl,scan(-10000,2023),0,voidC,Books);
+}
+
+
+
+// Search for a book by style
+// Take the books number and the structure where all the books are stocked
+
+void searchStyle(int nbrl,Book Books[0]){
 
     printf("Quel style de livre voulez vous:\n\n1) Policier\n2) Romantique\n3) Poeme\n4) Fantastique\n5) Historique\n6) Educatif\n7) Scientifique\n8) Bande dessinee\n9) Erotique\n10) Thriller\n11) Science Fiction\n12) Biographique\n\n");
     int choice =scan(1,12);
-    TriALpha(nbrl,1,Books);
-    showName(nbrl,5000,choice,vide,Books);
+
+    sortAlpha(nbrl,1,Books);
+
+    showBook(nbrl,5000,choice,voidC,Books);
 }
-
-
-int SearchN(int nbrl,Book Books[0]){
-    
-    char title[30];
-    printf("Quelle est le titre du livre que vous cherchez (mettez des - a la place des expaces svp):\n");
-    scanf("%s",title);
-    return showName(nbrl,6000,0,title,Books);
-}
-
-
-void SearchA(int nbrl,Book Books[0]){
-
-    char auth[30];
-    TriALpha(nbrl,1,Books);
-    printf("Quelle auteur cherchez vous (mettez des - a la place des expaces svp):\n");
-    scanf("%s",auth);
-    showName(nbrl,7000,0,auth,Books);
-}
-
-

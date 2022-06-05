@@ -1,145 +1,151 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <time.h>
-#include <string.h>
 #include "Library.h"
+
 
 
 int main(){
 
     Book Books[1000];
-    int nbrlA = takeInfo();
-    int nbrlB =takeInf(Books);
-    int nbrlE =takeIn();
-    int idA;
-    int choixM = 1;
+    int nbrlAcc = stockAccount();
+    int nbrlBook =stockBook(Books);
+    int nbrlLoan =stockLoan();
+    int idAcc;
+    int choice = 1;
 
-    while(choixM){
-            choixM = Menu();
-            while(choixM){
 
-                if (choixM==1){
 
-                    idA =connect(nbrlA);
-                    if(idA==-1){
-                        choixM = connec();
-                    }
-                    else{
 
-                        succesC(nbrlE,idA, Books);
+    while(choice){
+
+
+        // Login Window
+
+        choice = Menu();
+        
+        while(choice){
+
+            if (choice==1){
+                idAcc = login(nbrlAcc);
+
+                if(idAcc==-1){
+                    choice = loginVisual();
+                }
+                else{
+                    welcomeVisual(nbrlLoan,idAcc, Books);
+
+                    break;      
+                }
+            }
+            if (choice==2){
+                nbrlAcc = createAccount(nbrlAcc);
+
+                choice = loginVisual();
+            }
+            if(choice==3){
+                choice=10;
+
+                break;
+            }
+        }
+
+
+        // User Window
+
+        while(choice){
+
+
+            // Guest Window
+
+            if(choice==10){
+                choice = guestVisual();
+
+                if(choice==2){
+                    break;
+                }
+                else if(choice==1){
+                    displayBooks(nbrlBook,Books);
+
+                    if(choice==2){
                         break;
-                        
                     }
                 }
-
-                if (choixM==2){
-
-                    nbrlA = create(nbrlA);
-                    choixM = connec();
+                if(choice!=0){
+                    choice=10;
                 }
-                if(choixM==3){
-                    choixM=10;
+            }
+
+
+            // Teacher Window
+
+            else if(giveType(idAcc)==1){
+                choice = teacherVisual();
+
+                switch (choice)
+                {
+                case 1 :
+                    displayBooks(nbrlBook,Books);
+                    break;
+                        
+                case 2 :
+                    nbrlLoan= loanBook(nbrlLoan,nbrlBook,idAcc,Books,1);
+                    break;
+
+                case 3 :
+                    nbrlLoan= returnBook(nbrlLoan,idAcc,Books);
+                    break;
+
+                case 4 :
+                    showLoan(nbrlLoan,idAcc,Books);
+                    break;
+
+                case 5 :
+                    nbrlBook=addBook(nbrlBook,Books);
+                    break;
+
+                case 6 :
+                    nbrlBook=delBook(nbrlBook,Books);
+                    break;
+
+                case 7 :
+                    editPW(nbrlAcc,idAcc);
+                }
+                if (choice==8){
                     break;
                 }
             }
-            while(choixM){
 
-                if(choixM==10){
-                    choixM = guest();
-                    if(choixM==2){
-                        break;
-                    }
-                    else if(choixM==1){
 
-                        voiB(nbrlB,Books);
+            // Student Window
 
-                        if(choixM==2){
-                            break;
-                        }
-                    }
-                    if(choixM!=0){choixM=10;}
-                }
-                else if(giveT(idA)==1){
-                    choixM = prof();
-                    switch (choixM)
-                    {
-                    case 1 :
+            else{
+                choice = studentVisual();
 
-                        voiB(nbrlB,Books);
-                        break;
+                switch (choice)
+                {
+                case 1 :
+                    displayBooks(nbrlBook,Books);
+                    break;
                         
-                    case 2 :
+                case 2 :
+                    nbrlLoan= loanBook(nbrlLoan,nbrlBook,idAcc,Books,0);
+                    break;
 
-                        nbrlE= takeB(nbrlE,nbrlB,idA,Books,1);
-                        break;
+                case 3 :
+                    nbrlLoan= returnBook(nbrlLoan,idAcc,Books);
+                    break;
 
-                    case 3 :
+                case 4 :
+                    showLoan(nbrlLoan,idAcc,Books);
+                    break;
 
-                        nbrlE= backB(nbrlE,idA,Books);
-                        break;
-
-                    case 4 :
-
-                        showB(nbrlE,idA,Books);
-                        break;
-
-                    case 5 :
-
-                        nbrlB=addB(nbrlB,Books);
-                        break;
-
-                    case 6 :
-
-                        nbrlB=supB(nbrlB,Books);
-                        break;
-
-                    case 7 :
-
-                        editPW(nbrlA,idA);
- 
-                    }
-
-                    if (choixM==8){
-                        break;
-                    }
+                case 5 :
+                    editPW(nbrlAcc,idAcc);
+                    break;    
                 }
-                else{
-                    choixM = stud();
-                    switch (choixM)
-                    {
-                    case 1 :
-
-                        voiB(nbrlB,Books);
-                        break;
-                        
-                    case 2 :
-
-                        nbrlE= takeB(nbrlE,nbrlB,idA,Books,0);
-                        break;
-
-                    case 3 :
-
-                        nbrlE= backB(nbrlE,idA,Books);
-                        break;
-
-                    case 4 :
-
-                        showB(nbrlE,idA,Books);
-                        break;
-
-                    case 5 :
-
-                        editPW(nbrlA,idA);
-                        break;
-                    
-                    }
-                    if (choixM==6){
-                        break;
-                    }
-                
-                }
-            }
-        
+                if (choice==6){
+                    break;
+                }         
+            } 
+        }    
     }
 }
 
