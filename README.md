@@ -1,4 +1,4 @@
-# <san style="color:red">***CY***<san style="color:white">***-***<san style="color:orange">***Library***
+# ***CY-Library***
 
 
 ## Bibliothèque informatique
