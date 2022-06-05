@@ -24,7 +24,7 @@ Afin d'utiliser le programme, veuillez ouvrir un terminal dans le dossier <code>
 Executer la commande <code>make</code> pour compiler le projet puis lancer le avec la commande <code>./CY-Library</code>.
 
 ## Téléchargement
-* Télécharger <code>./CY-Library</code> et extraire le fichier .
+* Télécharger [<code>CY-Library</code>(]https://github.com/Dimed/Cy-Library/archive/refs/tags/v.1.zip) et extraire le fichier .
 * Télécharger une version de [<code>-make</code>] et [<code>-gcc</code>]  (si cela n'est pas déjà fait).
   
 ## Règles
